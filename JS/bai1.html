@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gymnastics Teams Challenge</title>
+</head>
+<body>
+    <div style="max-width: 500px; margin: 0 auto;">
+        <div style="border:1px solid #ccc; padding:15px; border-radius:8px; margin-bottom:15px;">
+            <h3>Dolphins</h3>
+            <label>Score 1:</label>
+            <input type="number" id="d1" placeholder="Score 1">
+            <label>Score 2:</label>
+            <input type="number" id="d2" placeholder="Score 2">
+            <label>Score 3:</label>
+            <input type="number" id="d3" placeholder="Score 3">
+        </div>
+        <div style="border:1px solid #ccc; padding:15px; border-radius:8px; margin-bottom:15px;">
+            <h3>Koalas</h3>
+            <label>Score 1:</label>
+            <input type="number" id="k1" placeholder="Score 1">
+            <label>Score 2:</label>
+            <input type="number" id="k2" placeholder="Score 2">
+            <label>Score 3:</label>
+            <input type="number" id="k3" placeholder="Score 3">
+        </div>
+        <button onclick="handleUserScores()">Tính & So sánh</button>
+        <div class="result" id="result"></div>
+    </div>
+</body>
+<script>
+
+
+function calcAverage(scores) {
+    return (scores[0] + scores[1] + scores[2]) / 3;
+}
+
+function printWinner(dolphinsAvg, koalasAvg) {
+    if (dolphinsAvg > koalasAvg && dolphinsAvg >= 100) {
+        console.log(`Dolphins win the trophy! (${dolphinsAvg.toFixed(2)} vs. ${koalasAvg.toFixed(2)})`);
+    } else if (koalasAvg > dolphinsAvg && koalasAvg >= 100) {
+        console.log(`Koalas win the trophy! (${koalasAvg.toFixed(2)} vs. ${dolphinsAvg.toFixed(2)})`);
+    } else if (dolphinsAvg === koalasAvg && dolphinsAvg >= 100 && koalasAvg >= 100) {
+        console.log(`It's a draw! Both teams have ${dolphinsAvg.toFixed(2)} points.`);
+    } else {
+        console.log('No team wins the trophy.');
+    }
+}
+
+function handleUserScores() {
+    const d1 = parseFloat(document.getElementById('d1').value);
+    const d2 = parseFloat(document.getElementById('d2').value);
+    const d3 = parseFloat(document.getElementById('d3').value);
+    const k1 = parseFloat(document.getElementById('k1').value);
+    const k2 = parseFloat(document.getElementById('k2').value);
+    const k3 = parseFloat(document.getElementById('k3').value);
+    if ([d1, d2, d3, k1, k2, k3].some(isNaN)) {
+        alert('Vui lòng nhập đầy đủ điểm cho cả hai đội!');
+        return;
+    }
+    const dolphinsAvg = calcAverage([d1, d2, d3]);
+    const koalasAvg = calcAverage([k1, k2, k3]);
+    let resultText = '';
+    if (dolphinsAvg > koalasAvg && dolphinsAvg >= 100) {
+        resultText = `Dolphins win the trophy! (${dolphinsAvg.toFixed(2)} vs. ${koalasAvg.toFixed(2)})`;
+    } else if (koalasAvg > dolphinsAvg && koalasAvg >= 100) {
+        resultText = `Koalas win the trophy! (${koalasAvg.toFixed(2)} vs. ${dolphinsAvg.toFixed(2)})`;
+    } else if (dolphinsAvg === koalasAvg && dolphinsAvg >= 100 && koalasAvg >= 100) {
+        resultText = `It's a draw! Both teams have ${dolphinsAvg.toFixed(2)} points.`;
+    } else {
+        resultText = 'No team wins the trophy.';
+    }
+    document.getElementById('result').innerHTML = resultText;
+    
+    console.log('--- User Input ---');
+    console.log(resultText);
+}
+
+
+const calcAverage = (a, b, c) => (a + b + c) / 3;
+
+
+const dolphinsData1 = [44, 23, 71];
+const koalasData1 = [65, 54, 49];
+const dolphinsData2 = [85, 54, 41];
+const koalasData2 = [23, 34, 27];
+
+const avgDolphins1 = calcAverage(...dolphinsData1);
+const avgKoalas1 = calcAverage(...koalasData1);
+const avgDolphins2 = calcAverage(...dolphinsData2);
+const avgKoalas2 = calcAverage(...koalasData2);
+
+
+function checkWinner(avgDolphins, avgKoalas) {
+    if (avgDolphins >= 2 * avgKoalas) {
+        console.log(`Dolphins win (${avgDolphins} vs. ${avgKoalas})`);
+    } else if (avgKoalas >= 2 * avgDolphins) {
+        console.log(`Koalas win (${avgKoalas} vs. ${avgDolphins})`);
+    } else {
+        console.log('No team wins!');
+    }
+}
+
+
+console.log('--- New Discipline Data 1 ---');
+checkWinner(avgDolphins1, avgKoalas1);
+console.log('--- New Discipline Data 2 ---');
+checkWinner(avgDolphins2, avgKoalas2);
+</script>
+</html>
