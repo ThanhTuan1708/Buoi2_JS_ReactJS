@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 400px; margin: 40px auto; border: 1px solid #ccc; border-radius: 8px; padding: 24px; }
+        input[type=number] { width: 80px; margin-right: 8px; }
+        .result { margin-top: 16px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Tip Calculator</h2>
+        <label>Enter bill values (comma separated):</label><br>
+        <input type="text" id="billsInput" value="125, 555, 44">
+        <button onclick="calculateTips()">Calculate</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+
+    function calcTip(bill) {
+        return (bill >= 50 && bill <= 300) ? bill * 0.15 : bill * 0.2;
+    }
+
+    function calculateTips() {
+        const billsStr = document.getElementById('billsInput').value;
+        const bills = billsStr.split(',').map(b => parseFloat(b.trim())).filter(b => !isNaN(b));
+        if (bills.length === 0) {
+            document.getElementById('result').innerHTML = '<span style="color:red">Please enter valid bill values.</span>';
+            return;
+        }
+        const tips = bills.map(calcTip);
+        const total = bills.map((bill, i) => bill + tips[i]);
+        let html = '<table><tr><th>Bill</th><th>Tip</th><th>Total</th></tr>';
+        for (let i = 0; i < bills.length; i++) {
+            html += `<tr><td>${bills[i]}</td><td>${tips[i].toFixed(2)}</td><td>${total[i].toFixed(2)}</td></tr>`;
+        }
+        html += '</table>';
+        document.getElementById('result').innerHTML = html;
+    }
+
+   
+    console.log('Tip for 100:', calcTip(100));
+    </script>
+</body>
+</html>
